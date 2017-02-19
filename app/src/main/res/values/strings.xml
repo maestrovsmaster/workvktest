@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">WorkVkTest</string>
     <string name="prokachat">Прокачать</string>
+    <string name="short_statistic">Краткая статистика</string>
+    <string name="page_is_shame">Страница \"Позор\"</string>
+    <string name="friends">Друзья</string>
+    <string name="subscribers_">Подпис.</string>
+    <string name="likes">Лайки</string>
+    <string name="comments">Комент.</string>
+    <string name="repost_">Репост.</string>
+    <string name="your_popular_photos">Твои популярные фото</string>
 </resources>

@@ -5,7 +5,14 @@
 
     <integer name="com_vk_sdk_AppId">5879803</integer>
 
+    <dimen name="text_size_nano">8sp</dimen>
+    <dimen name="text_size_micro">10sp</dimen>
+    <dimen name="text_size_mini">12sp</dimen>
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_xl">26sp</dimen>
+
+    <dimen name="statistic_labels_margins">3dp</dimen>
+
 </resources>

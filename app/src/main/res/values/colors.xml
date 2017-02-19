@@ -12,6 +12,13 @@
 
     <color name="orange1">#ff9370</color>
 
+    <color name="gray_progres">#eceff1</color>
+
+    <color name="crimea"> #fffdf2</color>
+
+    <color  name="dark_gray"> #333331</color>
+    <color name="crimea_dark"> #F2F0E6</color>
+
 
 
 </resources>

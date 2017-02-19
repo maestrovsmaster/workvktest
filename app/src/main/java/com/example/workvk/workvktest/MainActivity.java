@@ -1,10 +1,12 @@
 package com.example.workvk.workvktest;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +41,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setTitle("Автор");
+       // getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dark_gray)));
+
+      //  getSupportActionBar().setDisplayOptions(getSupportActionBar().getDisplayOptions() | android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+       // ImageView imageView = new ImageView(getSupportActionBar().getThemedContext());
+       // imageView.setScaleType(ImageView.ScaleType.CENTER);
+       // imageView.setImageResource(R.drawable.logoforactionbar);
+        android.support.v7.app.ActionBar.LayoutParams layoutParams =
+                new android.support.v7.app.ActionBar.LayoutParams(android.support.v7.app.ActionBar.LayoutParams.WRAP_CONTENT,
+                        android.support.v7.app.ActionBar.LayoutParams.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL);
+        layoutParams.rightMargin = 20;
+      //  imageView.setLayoutParams(layoutParams);
+      //  getSupportActionBar().setCustomView(imageView);
+
+       // getSupportActionBar().setTitle(getResources().getString(R.string.register_new));
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BACK ICON!!!!!!!!!!!!!!!!!
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setIcon(android.R.color.transparent);
+
 
         avatarCard = (CardView) findViewById(R.id.avatarCard);
         avatarImageView = (ImageView) findViewById(R.id.avatarImageView);

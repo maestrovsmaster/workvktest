@@ -17,4 +17,16 @@
         <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
 
+    <style name="AppTheme.ButtonOrange" parent="Base.Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/orange</item>
+    </style>
+
+    <style name="AppTheme.ActionBarDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/dark_gray</item>
+        <item name="colorPrimary">@color/dark_gray</item>
+    </style>
+
+
+
 </resources>
