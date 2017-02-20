@@ -343,7 +343,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/your_popular_photos" />
+            android:text="@string/your_popular_photos"
+                android:layout_marginBottom="12dp" />
 
             <com.example.workvk.workvktest.ExpandableHeightGridView
 
@@ -353,9 +354,9 @@
                 android:gravity="center"
                 android:horizontalSpacing="2dp"
                 android:isScrollContainer="false"
-                android:numColumns="4"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="20dp" />
+                android:verticalSpacing="20dp"
+                android:numColumns="3" />
 
 
         </LinearLayout>

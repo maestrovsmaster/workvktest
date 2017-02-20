@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,13 +50,22 @@ public class GridAdapter extends BaseAdapter {
             listViewHolder.textInListView = (TextView)convertView.findViewById(R.id.textView);
             listViewHolder.imageInListView = (ImageView)convertView.findViewById(R.id.imageView);
             convertView.setTag(listViewHolder);
+
+               String imgUrl = listStorage.get(position).getContent();
+
+            listViewHolder.parentRel =(RelativeLayout) convertView.findViewById(R.id.parentRelative);
+            listViewHolder.imageInListView.setTag(imgUrl);
+
+        Picasso.with(context).load(imgUrl).into(listViewHolder.imageInListView, new com.squareup.picasso.Callback() {
+            public void onSuccess() {
+            }
+            public void onError() {} });
+
         }else{
             listViewHolder = (ViewHolder)convertView.getTag();
         }
 
-        listViewHolder.textInListView.setText(listStorage.get(position).getContent());
-        int imageResourceId = this.context.getResources().getIdentifier(listStorage.get(position).getImageResource(), "drawable", this.context.getPackageName());
-        listViewHolder.imageInListView.setImageResource(imageResourceId);
+
 
         return convertView;
     }
@@ -61,6 +73,7 @@ public class GridAdapter extends BaseAdapter {
     static class ViewHolder{
         TextView textInListView;
         ImageView imageInListView;
+        RelativeLayout parentRel;
     }
 
 }

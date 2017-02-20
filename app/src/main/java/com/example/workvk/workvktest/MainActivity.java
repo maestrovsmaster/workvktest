@@ -1,12 +1,17 @@
 package com.example.workvk.workvktest;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridLayout;
@@ -193,8 +198,6 @@ public class MainActivity extends AppCompatActivity {
     private void loadUserPhotos()
     {
         Log.d("my","load photos...");
-                //VKRequest request = new VKRequest("photos.getAll", VKParameters.from(VKApiConst.OWNER_ID, 1));
-       // VKRequest request = new VKRequest("photos.getAll", VKParameters.from(VKApiConst.OWNER_ID, 1),  VKPhotoArray.class);
 
         VKRequest request2 = new VKRequest("photos.get", VKParameters.from(VKApiConst.OWNER_ID, 1).from(VKApiConst.ALBUM_ID, "wall"),  VKPhotoArray.class);
 
@@ -203,19 +206,6 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
                 VKList list = (VKList) response.parsedModel;
-               // Toast.makeText(MainActivity.this, "Кол-во фоток: "+ list.size(), Toast.LENGTH_SHORT).show();
-                Log.d("my", "qnt of photos: "+ list.size());
-
-                Log.d("my", "photos: "+ list.getClass().toString());
-                Log.d("my","rezsponce = "+response.toString());
-
-
-                VKApiModel wfff = list.get(0);
-                JSONObject json = response.json;
-                if(json==null) Log.d("my","json = null");
-                else {
-                    Log.d("my","kkk"+json.toString());
-                }
 
 
                 ArrayList<String>  imageResIds = new ArrayList<String>();
@@ -229,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                     i++;
                 }
 
-                Log.d("my","sadffffff"+imageResIds.toString());
+
 
                 ArrayList<ItemObject> allItems = new ArrayList<ItemObject>();
 
@@ -244,13 +234,46 @@ public class MainActivity extends AppCompatActivity {
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(MainActivity.this, "Position: " + position, Toast.LENGTH_SHORT).show();
+
+                        String url="";
+
+
+                        Log.d("my","vv = "+view.getClass().toString());
+                        ImageView imgVR = (ImageView) view.findViewById(R.id.imageView);
+                        if(imgVR.getTag()!=null) {
+                            Log.d("my"," tag = "+imgVR.getTag());
+                            url=(String)imgVR.getTag();
+                        }
+                        else  Log.d("my"," tag is null");
+
+                        Bitmap bmp = ((BitmapDrawable)imgVR.getDrawable()).getBitmap();
+                       // Toast.makeText(MainActivity.this, "Position: " + position, Toast.LENGTH_SHORT).show();
+
+                        if(url.length()>0) {
+                            LayoutInflater inflater = getLayoutInflater();
+                            View dialoglayout = inflater.inflate(R.layout.full_photo_dialog, null);
+                            ImageView imgV = (ImageView) dialoglayout.findViewById(R.id.photo);
+
+                           /* Picasso.with(MainActivity.this).load(url).into(imgV, new com.squareup.picasso.Callback() {
+                                public void onSuccess() {
+                                    avatarCard.setVisibility(View.VISIBLE);
+                                    loadUserPhotos();
+                                }
+                                public void onError() {}
+                            });*/
+
+                            imgV.setImageBitmap(bmp);
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setView(dialoglayout);
+
+                            builder.show();
+
+                        }
                     }
                 });
 
-               // JSONObject photosObj = list.fields;
 
-                //Log.d("my"," obj = "+photosObj.toString());
 
             }
         });
