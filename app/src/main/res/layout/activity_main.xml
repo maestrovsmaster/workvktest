@@ -12,7 +12,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollIndicators="none"
         android:scrollbars="none">
 
@@ -345,15 +345,23 @@
             android:gravity="center_horizontal"
             android:text="@string/your_popular_photos" />
 
+            <com.example.workvk.workvktest.ExpandableHeightGridView
+
+                android:id="@+id/gridview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:horizontalSpacing="2dp"
+                android:isScrollContainer="false"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="20dp" />
+
 
         </LinearLayout>
     </ScrollView>
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </GridLayout>
 
 
 </LinearLayout>

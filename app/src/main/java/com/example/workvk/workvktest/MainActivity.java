@@ -8,8 +8,12 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.vk.sdk.VKAccessToken;
@@ -24,9 +28,17 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKApiCity;
 import com.vk.sdk.api.model.VKApiCountry;
+import com.vk.sdk.api.model.VKApiModel;
+import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKApiUserFull;
 import com.vk.sdk.api.model.VKList;
+import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.util.VKUtil;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView avatarImageView;
     TextView nameTextView;
     TextView cityTextView;
+
+    ExpandableHeightGridView gridview;
 
 
 
@@ -68,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         avatarImageView = (ImageView) findViewById(R.id.avatarImageView);
         nameTextView = (TextView) findViewById(R.id.nameTextView);
         cityTextView = (TextView) findViewById(R.id.cityTextView);
+
+        gridview = (ExpandableHeightGridView) findViewById(R.id.gridview);
+
+        gridview.setExpanded(true);
 
 
         VKAccessToken token = VKAccessToken.currentToken();
@@ -116,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void vkUser()
     {
-        VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200, contacts, city, country"));
+        VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200, contacts, city, country, photos"));
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
@@ -160,13 +178,82 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         Picasso.with(MainActivity.this).load(imageUrl).into(avatarImageView, new com.squareup.picasso.Callback() {
             public void onSuccess() {
                 avatarCard.setVisibility(View.VISIBLE);
+                loadUserPhotos();
             }
             public void onError() {}
         });
 
+    }
+
+    private void loadUserPhotos()
+    {
+        Log.d("my","load photos...");
+                //VKRequest request = new VKRequest("photos.getAll", VKParameters.from(VKApiConst.OWNER_ID, 1));
+       // VKRequest request = new VKRequest("photos.getAll", VKParameters.from(VKApiConst.OWNER_ID, 1),  VKPhotoArray.class);
+
+        VKRequest request2 = new VKRequest("photos.get", VKParameters.from(VKApiConst.OWNER_ID, 1).from(VKApiConst.ALBUM_ID, "wall"),  VKPhotoArray.class);
+
+        request2.executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
+                VKList list = (VKList) response.parsedModel;
+               // Toast.makeText(MainActivity.this, "Кол-во фоток: "+ list.size(), Toast.LENGTH_SHORT).show();
+                Log.d("my", "qnt of photos: "+ list.size());
+
+                Log.d("my", "photos: "+ list.getClass().toString());
+                Log.d("my","rezsponce = "+response.toString());
+
+
+                VKApiModel wfff = list.get(0);
+                JSONObject json = response.json;
+                if(json==null) Log.d("my","json = null");
+                else {
+                    Log.d("my","kkk"+json.toString());
+                }
+
+
+                ArrayList<String>  imageResIds = new ArrayList<String>();
+
+                VKPhotoArray vkPhotoArray = (VKPhotoArray) response.parsedModel;
+
+                int i = 0;
+                for (VKApiPhoto vkPhoto : vkPhotoArray) {
+
+                    imageResIds.add(vkPhoto.photo_604);
+                    i++;
+                }
+
+                Log.d("my","sadffffff"+imageResIds.toString());
+
+                ArrayList<ItemObject> allItems = new ArrayList<ItemObject>();
+
+                for(String imgUrl: imageResIds)
+                {
+                    ItemObject item = new ItemObject(imgUrl,"imgUrl");
+                    allItems.add(item);
+                }
+                GridAdapter customAdapter = new GridAdapter(MainActivity.this, allItems);
+                gridview.setAdapter(customAdapter);
+
+                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(MainActivity.this, "Position: " + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+               // JSONObject photosObj = list.fields;
+
+                //Log.d("my"," obj = "+photosObj.toString());
+
+            }
+        });
     }
 
 }
